@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+
+    <title>Weather Viewer</title>
+    <style>
+        body{
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Ubuntu', sans-serif;
+    overflow: hidden;
+    background-color: black;
+}
+.box{
+    /* border: 2px solid blue; */
+    width: 20vw;
+    height: 60vh;
+    border-radius: 20px;
+    box-shadow: 0 0.2rem 3rem rgba(255, 255, 255, 0.2);
+    background-color: #7889fa;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+.info{
+    /* border: 2px solid black; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   
+}
+#Weathercon{
+    /* border: 2px solid blue; */
+    width: 20vw;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#size{
+    font-size: 80px;
+}
+.location{
+    /* border: 2px solid blue; */
+    text-align: center;
+    font-size: 36px;
+    font-weight: bolder;
+}
+#date{
+    /* border: 2px solid blue; */
+    text-align: center;
+    margin-top: -19px;
+}
+.temp{
+    /* border: 2px solid blue; */
+    text-align: center;
+    font-size: 32px;
+    font-weight: bolder;    
+}
+.tempmin_max{
+    /* border: 2px solid blue; */
+    text-align: center;
+    margin-top: -19px;
+    font-weight: lighter;
+}
+.wave{
+    /* border: 2px solid blue; */
+    position: absolute;
+    top: 48%;
+    left: -84%;
+    width: 50rem;
+    height: 60rem;
+    border-radius: 50%;
+    background: whitesmoke;
+    z-index: -1;
+    opacity: 0.2;
+}
+.one{
+   animation: rotation 3s infinite;
+   height: 47rem; 
+   opacity: 0.3;
+}
+.two{
+    height: 45.5rem;
+    animation: rotation 4s infinite;
+    opacity: 0.2;
+}
+.three{
+    height: 43rem;
+    animation: rotation 3s infinite;
+    opacity: 0.3;
+}
+@keyframes rotation{
+    100% {transform: rotate(360deg)}
+}
+
+@keyframes zoomout {
+    from{
+        transform: scale(0.8);
+    }
+    to{
+        transform: scale(1.2);
+    }
+}
+.effect{
+    font-size: 5rem;
+    animation: zoomout 3s linear infinite alternate;
+}
+
+@media(max-width : 1281px) {
+    .box{
+        width: 30vw;
+    }
+    .wave{
+        left: -68%;
+    }
+    #Weathercon{
+        width: 30vw;
+    }
+}
+@media(max-width : 969px) {
+    .box{
+        width: 40vw;
+    }
+    .wave{
+        left: -68%;
+    }
+    #Weathercon{
+        width: 40vw;
+    }
+}
+@media(max-width : 762px) {
+    .box{
+        /* border: 2px solid blue; */
+        width: 45vw;
+    }
+    .wave{
+        /* border: 2px solid blue; */
+        left: -72%;
+    }
+    #Weathercon{
+        width: 45vw;
+    }
+}
+@media(max-width : 650px) {
+    .box{
+        width: 50vw;
+    }
+    .wave{
+        /* border: 2px solid blue; */
+        left: -82%;
+    }
+    #Weathercon{
+        width: 50vw;
+    }
+}
+@media(max-width : 500px) {
+    .box{
+        width: 60vw;
+        height: 50vh;
+    }
+    .wave{
+        top: 44%;
+        left: -114%;
+    }
+    #Weathercon{
+        width: 60vw;
+        height: 20vh;
+    }
+    .location{
+        font-size: 30px;
+    }
+    .temp{
+        font-size: 28px;    
+    }
+    #size{
+        font-size: 50px;
+    }
+}
+@media (max-width:390px) {
+    #date{
+        font-size: 15px;
+    }
+    .tempmin_max{
+        font-size: 15px;
+    }
+    .wave{
+        top: 41%;
+        left: -156%;
+    }
+}
+    </style>
+</head>
+<body>
+        <div class="box">
+            <div class="wave one"></div>
+            <div class="wave two"></div>
+            <div class="wave three"></div>
+
+            <div id="Weathercon"><i class="fa-solid fa-sun fa-beat-fade effect" id="size" style="color:  #e6de00;"></i></div>
+
+            <div class="info">
+                <h2 class="location"><i class="fa-solid fa-street-view"></i> {%location%},{%country%}</h2>
+                <p id="date">WED | OCT | 10:49AM</p>
+                <h1 class="temp">{%tempval%}℃</h1>
+                <h3 class="tempmin_max">Min {%tempmin%}℃ | Max {%tempmax%}℃</h3>
+            </div>
+        
+        </div>
+
+
+        <script>
+            const date=document.getElementById("date");
+            let Weathercon=document.getElementById("Weathercon");
+            let status="{%status%}"
+
+            if(status=="Sunny")
+            {
+                Weathercon.innerHTML=`<i class="fa-solid fa-sun fa-beat-fade effect" id="size" style="color:  #e6de00;"></i>`
+            }
+            else if(status=="Clouds"){
+                Weathercon.innerHTML=`<i class="fa-solid fa-cloud effect" style="color: white;"></i>`
+            }
+            else if(status=="Rainy"){
+                Weathercon.innerHTML=`<i class="fa-solid fa-cloud-bolt effect"></i>`
+            }
+            else{
+                Weathercon.innerHTML=`<i class="fa-solid fa-cloud effect" style="color: white;"></i>`
+            }
+            const dayname=(a)=>{
+                switch(a)
+                {
+                    case 7: return "SUN"
+                            break;
+                    case 1: return "MON"
+                            break;
+                    case 2: return "TUE"
+                            break;
+                    case 3: return "WED"
+                            break;
+                    case 4: return "THU"
+                            break;
+                    case 5: return "FRI"
+                            break;
+                    case 6: return "SAT"
+                }
+            }
+            const monthName=(a)=>{
+                const month=new Array(12);
+                month[0]="Jan.";
+                month[1]="Feb.";
+                month[2]="Mar.";
+                month[3]="Apr.";
+                month[4]="May.";
+                month[5]="Jun.";
+                month[6]="Jul.";
+                month[7]="Aug.";
+                month[8]="Sep.";
+                month[9]="Oct.";
+                month[10]="Nov.";
+                month[11]="Dec.";
+
+                return(month[a]);
+            }
+            const getDateData=()=>{
+                const currentDate=new Date();
+                // console.log(currentDate.getDay())
+                let DayN=dayname(currentDate.getDay());
+                // console.log(DayN);
+
+                // console.log(currentDate.getMonth())
+                let MonN=monthName(currentDate.getMonth());
+                // console.log(MonN)
+
+                // console.log(currentDate.getDate())
+                let todayDate=currentDate.getDate();
+                // console.log(todayDate)
+                
+                let hours=currentDate.getHours();
+                let mins=currentDate.getMinutes();
+
+                let period="AM" 
+                if(hours>=12)
+                {
+                    period="PM"
+                }
+                if(hours>12)
+                {
+                    hours=hours-12;
+                }
+                if(mins < 10)
+                {
+                    mins="0"+mins;
+                }
+                
+                return (`${DayN} | ${MonN} ${todayDate} | ${hours}:${mins}${period}`)
+            }
+            date.innerHTML=getDateData();
+            console.log(getDateData());
+        </script>
+</body>
+</html>
